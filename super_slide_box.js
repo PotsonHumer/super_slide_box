@@ -379,11 +379,9 @@
 			var C_KEY = SSLIDE.KEY;
 			for(var C=0;C<SSLIDE.NUM;C++){
 				if(C == (SSLIDE.NUM - 1)){
-					THIS.find(".slide_pic:eq("+ C_KEY +")").not().animate({ "left":SSLIDE.LEVEL_W[C] +"px","top":SSLIDE.LEVEL_H[C] +"px","opacity":"0" },function(){
-						$(this).css({ "z-index":SSLIDE.NUM - C }).animate({ "opacity":"1" });
-					});
+					THIS.find(".slide_pic:eq("+ C_KEY +")").css({ "z-index":SSLIDE.NUM - C }).stop().animate({ "left":SSLIDE.LEVEL_W[C] +"px","top":SSLIDE.LEVEL_H[C] +"px" });
 				}else{
-					THIS.find(".slide_pic:eq("+ C_KEY +")").not().animate({ "left":SSLIDE.LEVEL_W[C] +"px","top":SSLIDE.LEVEL_H[C] +"px","z-index":SSLIDE.NUM - C });
+					THIS.find(".slide_pic:eq("+ C_KEY +")").css({ "z-index":SSLIDE.NUM - C }).stop().animate({ "left":SSLIDE.LEVEL_W[C] +"px","top":SSLIDE.LEVEL_H[C] +"px" });
 				}
 				
 				C_KEY++;
