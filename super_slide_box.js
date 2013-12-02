@@ -376,14 +376,6 @@
 		
 		// Circle 啟動
 		function CIRCLE_ACT(){
-			//THIS.find(".slide_pic:eq("+ SSLIDE.KEY +")").css({ "":"" });
-			
-			/*
-			$(this).find(".slide_pic").each(function(KEY){
-				$(this).animate({ "left":SSLIDE.LEVEL_W[KEY] +"px","top":SSLIDE.LEVEL_H[KEY] +"px","z-index":SSLIDE.NUM - KEY });
-			});
-			*/
-			
 			var C_KEY = SSLIDE.KEY;
 			for(var C=0;C<SSLIDE.NUM;C++){
 				if(C == (SSLIDE.NUM - 1)){
