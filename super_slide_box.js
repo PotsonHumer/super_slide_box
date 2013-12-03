@@ -49,6 +49,7 @@
 			BLOCK_W: 0,
 			LEVEL_W: new Array(),
 			LEVEL_H: new Array(),
+			LEVEL_Z: new Array(),
 		}, OPTION);
 		
 		var THIS = this;
@@ -227,9 +228,31 @@
 						}
 					}
 					
+					//----------------------
+					
+					// Z軸設定
+					if(SSLIDE.NUM % 2 == 0){
+						var Z_NUM = SSLIDE.NUM / 2;
+					}else{
+						var Z_NUM = (SSLIDE.NUM - 1) / 2;
+					}
+					
+					SSLIDE.LEVEL_Z[0] = SSLIDE.NUM + 1;
+					
+					for(var Z=1;Z<=Z_NUM * 2;Z++){
+						if(Z <= Z_NUM){
+							SSLIDE.LEVEL_Z[Z] = SSLIDE.NUM - Z;
+							var LAST_LEVEL_Z = SSLIDE.LEVEL_Z[Z];
+						}else{
+							LAST_LEVEL_Z++;
+							SSLIDE.LEVEL_Z[Z] = LAST_LEVEL_Z;
+						} 
+					}
+									
+					
 					// 設置位置
 					$(this).find(".slide_pic").each(function(KEY){
-						$(this).css({ "left":SSLIDE.LEVEL_W[KEY] +"px","top":SSLIDE.LEVEL_H[KEY] +"px","z-index":SSLIDE.NUM - KEY });
+						$(this).css({ "left":SSLIDE.LEVEL_W[KEY] +"px","top":SSLIDE.LEVEL_H[KEY] +"px","z-index":SSLIDE.LEVEL_Z[KEY] });
 					});
 					
 				break;
@@ -379,9 +402,9 @@
 			var C_KEY = SSLIDE.KEY;
 			for(var C=0;C<SSLIDE.NUM;C++){
 				if(C == (SSLIDE.NUM - 1)){
-					THIS.find(".slide_pic:eq("+ C_KEY +")").css({ "z-index":SSLIDE.NUM - C }).stop().animate({ "left":SSLIDE.LEVEL_W[C] +"px","top":SSLIDE.LEVEL_H[C] +"px" });
+					THIS.find(".slide_pic:eq("+ C_KEY +")").css({ "z-index":SSLIDE.LEVEL_Z[C] }).stop().animate({ "left":SSLIDE.LEVEL_W[C] +"px","top":SSLIDE.LEVEL_H[C] +"px" });
 				}else{
-					THIS.find(".slide_pic:eq("+ C_KEY +")").css({ "z-index":SSLIDE.NUM - C }).stop().animate({ "left":SSLIDE.LEVEL_W[C] +"px","top":SSLIDE.LEVEL_H[C] +"px" });
+					THIS.find(".slide_pic:eq("+ C_KEY +")").css({ "z-index":SSLIDE.LEVEL_Z[C] }).stop().animate({ "left":SSLIDE.LEVEL_W[C] +"px","top":SSLIDE.LEVEL_H[C] +"px" });
 				}
 				
 				C_KEY++;
