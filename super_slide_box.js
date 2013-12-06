@@ -57,6 +57,8 @@
 			LEVEL_Y: new Array(),
 			LEVEL_P_X: new Array(),
 			LEVEL_P_Y: new Array(),
+			BLUR: 0,
+			BLUR_KEY: 0,
 		}, OPTION);
 		
 		var THIS = this;
@@ -319,7 +321,28 @@
 						}
 					});
 					
-					//----------------------			
+					//----------------------
+					
+					// 模糊設定
+					
+					if(SSLIDE.NUM % 2 == 0){
+						SSLIDE.BLUR_KEY = SSLIDE.NUM / 2;
+						SSLIDE.BLUR = 1;
+					}else{
+						SSLIDE.BLUR_KEY = (SSLIDE.NUM - 1) / 2;
+						SSLIDE.BLUR = 2;
+					}
+					
+					
+					/*
+					-webkit-filter: blur(3px);
+					-moz-filter: blur(3px);
+					-o-filter: blur(3px);
+					-ms-filter: blur(3px);
+					filter: blur(3px);
+					*/
+					
+					//----------------------
 					
 					// 設置位置
 					$(this).find(".slide_pic").each(function(KEY){
@@ -336,6 +359,16 @@
 							"width":SSLIDE.LEVEL_X[KEY],
 							"height":SSLIDE.LEVEL_Y[KEY],
 						});
+						
+						if(SSLIDE.BLUR_KEY == KEY || SSLIDE.BLUR == 2 && (SSLIDE.BLUR_KEY + 1) == KEY){
+							$(this).find("img").css({
+								"-webkit-filter":"blur(3px)",
+								"-moz-filter":"blur(3px)",
+								"-o-filter":"blur(3px)",
+								"-ms-filter":"blur(3px)",
+								"filter":"blur(3px)",
+							});
+						}
 					});
 					
 				break;
@@ -497,6 +530,24 @@
 					"width":SSLIDE.LEVEL_X[C],
 					"height":SSLIDE.LEVEL_Y[C],
 				});
+				
+				if(SSLIDE.BLUR_KEY == C || SSLIDE.BLUR == 2 && (SSLIDE.BLUR_KEY + 1) == C){
+					THIS.find(".slide_pic:eq("+ C_KEY +") img").css({
+						"-webkit-filter":"blur(3px)",
+						"-moz-filter":"blur(3px)",
+						"-o-filter":"blur(3px)",
+						"-ms-filter":"blur(3px)",
+						"filter":"blur(3px)",
+					});
+				}else{
+					THIS.find(".slide_pic:eq("+ C_KEY +") img").css({
+						"-webkit-filter":"none",
+						"-moz-filter":"none",
+						"-o-filter":"none",
+						"-ms-filter":"none",
+						"filter":"none",
+					});
+				}
 				
 				C_KEY++;
 				
