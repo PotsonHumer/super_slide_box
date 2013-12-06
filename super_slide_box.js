@@ -47,9 +47,16 @@
 			KEY: 0,
 			CYCLE_ACT: false,
 			BLOCK_W: 0,
+			
+			//---- circle only
 			LEVEL_W: new Array(),
 			LEVEL_H: new Array(),
 			LEVEL_Z: new Array(),
+			LEVEL_S: new Array(),
+			LEVEL_X: new Array(),
+			LEVEL_Y: new Array(),
+			LEVEL_P_X: new Array(),
+			LEVEL_P_Y: new Array(),
 		}, OPTION);
 		
 		var THIS = this;
@@ -248,11 +255,87 @@
 							SSLIDE.LEVEL_Z[Z] = LAST_LEVEL_Z;
 						} 
 					}
-									
+					
+					//----------------------
+					
+					// 遞縮圖設定
+					if(SSLIDE.NUM % 2 == 0){
+						var S_NUM = SSLIDE.NUM / 2 - 1;
+						var S_JUMP = 0;
+					}else{
+						var S_NUM = (SSLIDE.NUM - 1) / 2 - 1;
+						var S_JUMP = 1;
+					}
+					
+					var S_MARGIN = Math.floor(50 / (S_NUM + 1));
+					
+					SSLIDE.LEVEL_S[0] = 100;
+					
+					// 縮圖 % 設定					
+					for(var S=1;S<SSLIDE.NUM;S++){
+						if(S_JUMP == 1){
+							if(S <= S_NUM){
+								SSLIDE.LEVEL_S[S] = SSLIDE.LEVEL_S[S - 1] - S_MARGIN;
+							}
+							
+							if(S == S_NUM + 1){
+								SSLIDE.LEVEL_S[S] = SSLIDE.LEVEL_S[S - 1] - S_MARGIN;
+							}
+							
+							if(S == S_NUM + 2){
+								SSLIDE.LEVEL_S[S] = SSLIDE.LEVEL_S[S - 1];
+							}
+							
+							if(S > S_NUM + 2){
+								SSLIDE.LEVEL_S[S] = SSLIDE.LEVEL_S[S - 1] + S_MARGIN;
+							}
+						}
+						
+						if(S_JUMP == 0){
+							if(S <= S_NUM + 1){
+								SSLIDE.LEVEL_S[S] = SSLIDE.LEVEL_S[S - 1] - S_MARGIN;
+							}
+							
+							if(S > S_NUM + 1){
+								SSLIDE.LEVEL_S[S] = SSLIDE.LEVEL_S[S - 1] + S_MARGIN;
+							}
+						}
+					}
+					
+					$.each(SSLIDE.LEVEL_S,function(KEY,VAL){
+						if(KEY > 0){
+							var RATIO = SSLIDE.WIDTH / SSLIDE.HEIGHT;
+							
+							SSLIDE.LEVEL_X[KEY] = Math.round(SSLIDE.WIDTH * (VAL / 100));
+							SSLIDE.LEVEL_P_X[KEY] = Math.round((SSLIDE.WIDTH - SSLIDE.LEVEL_X[KEY]) / 2);
+							
+							SSLIDE.LEVEL_Y[KEY] = Math.round(SSLIDE.LEVEL_X[KEY] / RATIO);
+							SSLIDE.LEVEL_P_Y[KEY] = Math.round((SSLIDE.HEIGHT - SSLIDE.LEVEL_Y[KEY]) / 2);
+						}else{
+							SSLIDE.LEVEL_X[KEY] = SSLIDE.WIDTH;
+							SSLIDE.LEVEL_Y[KEY] = SSLIDE.HEIGHT;
+							SSLIDE.LEVEL_P_X[KEY] = 0;
+							SSLIDE.LEVEL_P_Y[KEY] = 0;
+						}
+					});
+					
+					//----------------------			
 					
 					// 設置位置
 					$(this).find(".slide_pic").each(function(KEY){
-						$(this).css({ "left":SSLIDE.LEVEL_W[KEY] +"px","top":SSLIDE.LEVEL_H[KEY] +"px","z-index":SSLIDE.LEVEL_Z[KEY] });
+						$(this).css({
+							"left":SSLIDE.LEVEL_W[KEY] +"px",
+							"top":SSLIDE.LEVEL_H[KEY] +"px",
+							"z-index":SSLIDE.LEVEL_Z[KEY],
+							"width":SSLIDE.LEVEL_X[KEY],
+							"height":SSLIDE.LEVEL_Y[KEY],
+							"padding":SSLIDE.LEVEL_P_X[KEY],
+						});
+						
+						$(this).find("img").css({
+							"width":SSLIDE.LEVEL_X[KEY],
+							"height":SSLIDE.LEVEL_Y[KEY],
+						});
 					});
 					
 				break;
@@ -401,11 +484,19 @@
 		function CIRCLE_ACT(){
 			var C_KEY = SSLIDE.KEY;
 			for(var C=0;C<SSLIDE.NUM;C++){
-				if(C == (SSLIDE.NUM - 1)){
-					THIS.find(".slide_pic:eq("+ C_KEY +")").css({ "z-index":SSLIDE.LEVEL_Z[C] }).stop().animate({ "left":SSLIDE.LEVEL_W[C] +"px","top":SSLIDE.LEVEL_H[C] +"px" });
-				}else{
-					THIS.find(".slide_pic:eq("+ C_KEY +")").css({ "z-index":SSLIDE.LEVEL_Z[C] }).stop().animate({ "left":SSLIDE.LEVEL_W[C] +"px","top":SSLIDE.LEVEL_H[C] +"px" });
-				}
+				THIS.find(".slide_pic:eq("+ C_KEY +")").css({ "z-index":SSLIDE.LEVEL_Z[C] }).stop().animate({
+					"left":SSLIDE.LEVEL_W[C] +"px",
+					"top":SSLIDE.LEVEL_H[C] +"px",
+					"z-index":SSLIDE.LEVEL_Z[C],
+					"width":SSLIDE.LEVEL_X[C],
+					"height":SSLIDE.LEVEL_Y[C],
+					"padding":SSLIDE.LEVEL_P_X[C],
+				});
+				
+				THIS.find(".slide_pic:eq("+ C_KEY +") img").animate({
+					"width":SSLIDE.LEVEL_X[C],
+					"height":SSLIDE.LEVEL_Y[C],
+				});
 				
 				C_KEY++;
 				
