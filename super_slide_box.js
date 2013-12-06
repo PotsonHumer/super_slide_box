@@ -57,8 +57,7 @@
 			LEVEL_Y: new Array(),
 			LEVEL_P_X: new Array(),
 			LEVEL_P_Y: new Array(),
-			BLUR: 0,
-			BLUR_KEY: 0,
+			LEVEL_B: new Array(),
 		}, OPTION);
 		
 		var THIS = this;
@@ -260,7 +259,7 @@
 					
 					//----------------------
 					
-					// 遞縮圖設定
+					// 遞縮圖設定 , 遞模糊設定
 					if(SSLIDE.NUM % 2 == 0){
 						var S_NUM = SSLIDE.NUM / 2 - 1;
 						var S_JUMP = 0;
@@ -269,9 +268,10 @@
 						var S_JUMP = 1;
 					}
 					
-					var S_MARGIN = Math.floor(50 / (S_NUM + 1));
+					var S_MARGIN = Math.floor(50 / (S_NUM + 1)); // 縮圖百分比間距
 					
 					SSLIDE.LEVEL_S[0] = 100;
+					SSLIDE.LEVEL_B[0] = 0;
 					
 					// 縮圖 % 設定					
 					for(var S=1;S<SSLIDE.NUM;S++){
@@ -288,6 +288,12 @@
 								SSLIDE.LEVEL_S[S] = SSLIDE.LEVEL_S[S - 1];
 							}
 							
+							if(S == S_NUM + 1 || S == S_NUM + 2){
+								SSLIDE.LEVEL_B[S] = 5;
+							}else{
+								SSLIDE.LEVEL_B[S] = 0;
+							}
+							
 							if(S > S_NUM + 2){
 								SSLIDE.LEVEL_S[S] = SSLIDE.LEVEL_S[S - 1] + S_MARGIN;
 							}
@@ -300,6 +306,12 @@
 							
 							if(S > S_NUM + 1){
 								SSLIDE.LEVEL_S[S] = SSLIDE.LEVEL_S[S - 1] + S_MARGIN;
+							}
+							
+							if(S == S_NUM || S == S_NUM + 1 || S == S_NUM + 2){
+								SSLIDE.LEVEL_B[S] = 5;
+							}else{
+								SSLIDE.LEVEL_B[S] = 0;
 							}
 						}
 					}
@@ -324,15 +336,6 @@
 					//----------------------
 					
 					// 模糊設定
-					
-					if(SSLIDE.NUM % 2 == 0){
-						SSLIDE.BLUR_KEY = SSLIDE.NUM / 2;
-						SSLIDE.BLUR = 1;
-					}else{
-						SSLIDE.BLUR_KEY = (SSLIDE.NUM - 1) / 2;
-						SSLIDE.BLUR = 2;
-					}
-					
 					
 					/*
 					-webkit-filter: blur(3px);
@@ -360,15 +363,13 @@
 							"height":SSLIDE.LEVEL_Y[KEY],
 						});
 						
-						if(SSLIDE.BLUR_KEY == KEY || SSLIDE.BLUR == 2 && (SSLIDE.BLUR_KEY + 1) == KEY){
-							$(this).find("img").css({
-								"-webkit-filter":"blur(3px)",
-								"-moz-filter":"blur(3px)",
-								"-o-filter":"blur(3px)",
-								"-ms-filter":"blur(3px)",
-								"filter":"blur(3px)",
-							});
-						}
+						$(this).find("img").css({
+							"-webkit-filter":"blur("+ SSLIDE.LEVEL_B[KEY] +"px)",
+							"-moz-filter":"blur("+ SSLIDE.LEVEL_B[KEY] +"px)",
+							"-o-filter":"blur("+ SSLIDE.LEVEL_B[KEY] +"px)",
+							"-ms-filter":"blur("+ SSLIDE.LEVEL_B[KEY] +"px)",
+							"filter":"blur("+ SSLIDE.LEVEL_B[KEY] +"px)",
+						});
 					});
 					
 				break;
@@ -531,23 +532,13 @@
 					"height":SSLIDE.LEVEL_Y[C],
 				});
 				
-				if(SSLIDE.BLUR_KEY == C || SSLIDE.BLUR == 2 && (SSLIDE.BLUR_KEY + 1) == C){
-					THIS.find(".slide_pic:eq("+ C_KEY +") img").css({
-						"-webkit-filter":"blur(3px)",
-						"-moz-filter":"blur(3px)",
-						"-o-filter":"blur(3px)",
-						"-ms-filter":"blur(3px)",
-						"filter":"blur(3px)",
-					});
-				}else{
-					THIS.find(".slide_pic:eq("+ C_KEY +") img").css({
-						"-webkit-filter":"none",
-						"-moz-filter":"none",
-						"-o-filter":"none",
-						"-ms-filter":"none",
-						"filter":"none",
-					});
-				}
+				THIS.find(".slide_pic:eq("+ C_KEY +") img").css({
+					"-webkit-filter":"blur("+ SSLIDE.LEVEL_B[C] +"px)",
+					"-moz-filter":"blur("+ SSLIDE.LEVEL_B[C] +"px)",
+					"-o-filter":"blur("+ SSLIDE.LEVEL_B[C] +"px)",
+					"-ms-filter":"blur("+ SSLIDE.LEVEL_B[C] +"px)",
+					"filter":"blur("+ SSLIDE.LEVEL_B[C] +"px)",
+				});
 				
 				C_KEY++;
 				
