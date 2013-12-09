@@ -57,10 +57,7 @@
 			LEVEL_Y: new Array(),
 			LEVEL_P_X: new Array(),
 			LEVEL_P_Y: new Array(),
-<<<<<<< HEAD
 			LEVEL_B: new Array(),
-=======
->>>>>>> parent of 0af24c9... add blur
 		}, OPTION);
 		
 		var THIS = this;
@@ -336,11 +333,7 @@
 						}
 					});
 					
-<<<<<<< HEAD
 					//----------------------
-=======
-					//----------------------			
->>>>>>> parent of 0af24c9... add blur
 					
 					// 設置位置
 					$(this).find(".slide_pic").each(function(KEY){
@@ -357,7 +350,6 @@
 							"width":SSLIDE.LEVEL_X[KEY],
 							"height":SSLIDE.LEVEL_Y[KEY],
 						});
-<<<<<<< HEAD
 						
 						$(this).find("img").css({
 							"-webkit-filter":"blur("+ SSLIDE.LEVEL_B[KEY] +"px)",
@@ -366,8 +358,6 @@
 							"-ms-filter":"blur("+ SSLIDE.LEVEL_B[KEY] +"px)",
 							"filter":"blur("+ SSLIDE.LEVEL_B[KEY] +"px)",
 						});
-=======
->>>>>>> parent of 0af24c9... add blur
 					});
 					
 				break;
@@ -530,7 +520,6 @@
 					"height":SSLIDE.LEVEL_Y[C],
 				});
 				
-<<<<<<< HEAD
 				THIS.find(".slide_pic:eq("+ C_KEY +") img").css({
 					"-webkit-filter":"blur("+ SSLIDE.LEVEL_B[C] +"px)",
 					"-moz-filter":"blur("+ SSLIDE.LEVEL_B[C] +"px)",
@@ -539,8 +528,6 @@
 					"filter":"blur("+ SSLIDE.LEVEL_B[C] +"px)",
 				});
 				
-=======
->>>>>>> parent of 0af24c9... add blur
 				C_KEY++;
 				
 				if(C_KEY >= SSLIDE.NUM){
