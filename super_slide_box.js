@@ -20,7 +20,6 @@
 	
 	
 	**********************************************************************
-
 	
 
 */
@@ -335,21 +334,6 @@
 					
 					//----------------------
 					
-<<<<<<< HEAD
-=======
-					// 模糊設定
-					
-					/*
-					-webkit-filter: blur(3px);
-					-moz-filter: blur(3px);
-					-o-filter: blur(3px);
-					-ms-filter: blur(3px);
-					filter: blur(3px);
-					*/
-					
-					//----------------------
-					
->>>>>>> 62728fbb2cbbf7b04f978415118bae7c7300e936
 					// 設置位置
 					$(this).find(".slide_pic").each(function(KEY){
 						$(this).css({
